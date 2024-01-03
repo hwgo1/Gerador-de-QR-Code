@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <!-- Meta tags for character set and viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tailwind CSS configuration -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Poppins", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Include QRCode.js library via CDN with integrity check -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+      integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- Include custom JavaScript file -->
+    <script src="./js/script.js" defer></script>
+
+    <!-- Style for hiding spinner initially -->
+    <style>
+      #spinner {
+        display: none;
+      }
+    </style>
+
+    <!-- Page title -->
+    <title>QR Code Generator</title>
+  </head>
+  <body>
+    <!-- Header with background color and title -->
+    <header class="bg-red-500 p-4 mb-10">
+      <div class="max-w-5xl m-auto">
+        <div class="text-xl font-bold text-white">QR Code Generator</div>
+      </div>
+    </header>
+
+    <!-- Main content of the page -->
+    <main>
+      <!-- Section for generating QR Code -->
+      <div
+        class="flex flex-col-reverse align-center justify-center m-auto p-10 md:max-w-4xl md:flex-row"
+      >
+        <!-- Left side with input form -->
+        <div class="w-full md:w-2/3 mr-24">
+          <h1 class="text-3xl font-bold mb-5 md:text-4xl">
+            Gerador de QR Code
+          </h1>
+
+          <!-- Explanation about QR Codes -->
+          <p class="mb-4">
+            QR Codes ajudam os usuários de smartphones a acessarem seus websites
+            de forma rápida e fácil.
+          </p>
+          <p>Digite o seu URL abaixo para gerar o QR Code e baixar a imagem.</p>
+
+          <!-- Form for QR Code generation -->
+          <form id="generate-form" class="mt-4">
+            <input
+              id="url"
+              type="url"
+              class="w-full border-2 border-gray-200 rounded p-3 text-gray-dark mr-2 focus:outline-none mb-5"
+              placeholder="Digite o URL"
+            />
+
+            <select
+              id="size"
+              class="w-full border-2 border-gray-200 rounded p-3 text-gray-dark mr-2 focus:outline-none"
+            >
+              <!-- Options for QR Code size -->
+              <option value="100">100x100</option>
+              <option value="200">200x200</option>
+              <option value="300">300x300</option>
+              <option value="400">400x400</option>
+              <option value="500">500x500</option>
+              <option value="600">600x600</option>
+              <option value="700">700x700</option>
+            </select>
+
+            <!-- Button to trigger QR Code generation -->
+            <button
+              class="bg-gray-600 rounded w-full text-white py-3 px-4 mt-5 transition-all duration-200 hover:bg-black"
+              type="submit"
+            >
+              Gerar QR Code
+            </button>
+          </form>
+        </div>
+
+        <!-- Right side with placeholder QR Code image -->
+        <div class="w-full md:w-1/3 self-center">
+          <img
+            src="img/qr-code.svg"
+            alt="QR Code"
+            class="w-1/2 m-auto mb-10 md:w-full"
+          />
+        </div>
+      </div>
+
+      <!-- Section for displaying generated QR Code -->
+      <div
+        id="generated"
+        class="max-w-5xl m-auto flex flex-col text-center align-center justify-center mt-20"
+      >
+        <!-- Spinner for loading indication -->
+        <div id="spinner" role="status">
+          <svg
+            class="inline mr-2 w-24 h-24 text-gray-200 animate-spin dark:text-gray-600 fill-pink-600"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Spinner SVG paths -->
+            <!-- ... -->
+          </svg>
+          <span class="sr-only">Carregando...</span>
+        </div>
+
+        <!-- Container for displaying QR Code -->
+        <div id="qrcode" class="m-auto"></div>
+      </div>
+    </main>
+  </body>
+</html>
