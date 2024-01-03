@@ -1,86 +1,85 @@
+// Get references to HTML elements
 const form = document.getElementById("generate-form");
-const qr = document.getElementById("qrcode");
+const qrCode = document.getElementById("qrcode");
 
-// Button submit
+// Function to handle form submission
 const onGenerateSubmit = (e) => {
+  // Clear previous UI elements
+  clearUI();
   e.preventDefault();
 
-  clearUI();
-
+  // Retrieve URL and size values from the form
   const url = document.getElementById("url").value;
   const size = document.getElementById("size").value;
 
-  // Validate url
+  // Check if URL is provided
   if (url === "") {
-    alert("Please enter a URL");
+    alert("Digite um URL");
   } else {
+    // Show spinner while generating QR Code
     showSpinner();
-    // Show spinner for 1 sec
+
+    // Simulate asynchronous generation process
     setTimeout(() => {
+      // Hide spinner after 1 second
       hideSpinner();
+
+      // Generate QR Code
       generateQRCode(url, size);
-      showScanner();
-      // Generate the save button after the qr code image src is ready
+
+      // Delay to ensure QR Code is generated before creating save button
       setTimeout(() => {
-        // Get save url
-        const saveUrl = qr.querySelector("canvas").toDataURL();
-        // Create save button
+        // Get QR Code image URL and create download button
+        const saveUrl = qrCode.querySelector("img").src;
         createSaveBtn(saveUrl);
       }, 50);
     }, 1000);
   }
 };
 
-// Generate QR code
+// Function to generate QR Code using QRCode.js library
 const generateQRCode = (url, size) => {
-  const qrcode = new QRCode("qrcode", {
+  const qr = new QRCode("qrcode", {
     text: url,
     width: size,
     height: size,
   });
 };
 
-// Clear QR code and save button
+// Function to show the loading spinner
+const showSpinner = () => {
+  document.getElementById("spinner").style.display = "block";
+};
+
+// Function to hide the loading spinner
+const hideSpinner = () => {
+  document.getElementById("spinner").style.display = "none";
+};
+
+// Function to clear UI elements
 const clearUI = () => {
-  qr.innerHTML = "";
+  qrCode.innerHTML = "";
+  // Remove existing save button if present
   const saveBtn = document.getElementById("save-link");
   if (saveBtn) {
     saveBtn.remove();
   }
 };
 
-// hide  scanner
-const showScanner = () => {
-  const scanner = document.getElementById("qrCodeContainer");
-  scanner.style.display = "block";
-};
-
-// Show spinner
-const showSpinner = () => {
-  const spinner = document.getElementById("spinner");
-  spinner.style.display = "block";
-};
-
-// Hide spinner
-const hideSpinner = () => {
-  const spinner = document.getElementById("spinner");
-  spinner.style.display = "none";
-};
-
-// Create save button to download QR code as image
+// Function to create and append a save button with the generated QR Code URL
 const createSaveBtn = (saveUrl) => {
   const link = document.createElement("a");
   link.id = "save-link";
   link.classList =
-    'bg-red-500 hover:bg-red-700 text-white font-bold py-2 rounded w-1/3 m-auto my-5';
-  link.innerHTML = "Save Image";
-
+    "bg-red-500 hover:bg-red-700 transition-all duration-200 text-white font-bold py-2 rounded w-1/3 m-auto my-5";
   link.href = saveUrl;
-  link.download = "qrcode.png";
-
+  link.download = "qr";
+  link.innerHTML = "Download";
   document.getElementById("generated").appendChild(link);
 };
 
+// Hide spinner initially
 hideSpinner();
 
+// Add event listener for form submission
 form.addEventListener("submit", onGenerateSubmit);
